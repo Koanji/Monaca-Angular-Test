@@ -1,0 +1,93 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!--このコードはAngular.jsをロードします。-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>　
+    <script src="app.js"></script>
+</head>
+
+<!--ng-appはAngularJSを適用するとアプリケーションに宣言します。
+これを外すとbodyにAngularJSが適用されないため、{{hello}}がそのまま表示されます。-->
+<body ng-app>
+ 
+  <!--
+  Example 1: Hello World
+  
+  アプリケーション内のdivタグ内にapp.jsで定義されているfirstCtrlコントローラーを適用することを宣言します。
+  コントローラー(Controller)はそれぞれに固有のスコープ($scope)を保持しています。-->
+  <div ng-controller="firstCtrl">
+    <p>{{hello}}</p>
+  </div>
+  
+  <div ng-controller="secondCtrl">
+    <p>{{hello}}</p>
+  </div>
+ 
+  <div ng-controller="thirdCtrl">
+    <p>{{hello}}</p>
+  </div>
+
+
+  <!-- $scopeには関数も入れることができます。
+下記の例では $scope.nameに保持された"Monaca!!!"という文字列を
+grtMonaca()という関数を使って取得しています。getMonaca()関数自体は
+{{ ... }}の中に記述しています。
+ -->
+ 
+  <!--MonaCtrlコントローラーを適用-->
+  <div ng-controller="MonaCtrl">
+    <p>{{getMonaca()}}</p>
+  </div>
+  
+  
+  <!-- 
+  Example 2:AngularJSを使ったデータバインディング
+  
+  ng-model="name"という形でinputにModel (モデル) を指定しています。
+  こうすることで$scope.nameというModel(モデル)が作成されます。
+  そして、{{name}}は$scope.nameを参照します。
+  こうすることでng-model="name"と指定された入力フォームと{{name}}の箇所を
+  バインディングすることができます。
+  $scopeがModelとViewとを繋ぐ糊の役割を果たしています。 -->
+  <div>
+    <input type="text" ng-model="name">
+    <p>こんにちは {{name}} さん!</p>
+  </div>
+ 
+ 
+ <!-- 
+ Example 3:ちょっと項目数を増やした例
+ 
+ 入力フォームの例です。
+ 黒あん最中は50個まで、白あん最中は20個まで、粒あん最中は15個まで購入できます。
+ 5000円以上買うと、送料500円が無料になります。
+ -->
+ 
+  <div ng-controller="MonaCtrl" >
+    <ul>
+      <!-- ng-repeatディレクティブは配列やオブジェクトをループさせることができるディレクティブです。
+      ここではitemsオブジェクトの中身をループさせて
+      {{item.name}}、{{item.price}}という形で展開を行っています。 -->
+      <li ng-repeat="item in items" >{{item.name}}:{{item.price}}円</li><br/>
+      
+      <!-- input [number]に指定されているng-model="item1"、ng-model="item2"などは商品の購入量です。
+      $scope.item1、$scope.item2等のデータと結びついています。
+      app.jsで値を0で初期化しているためにフォームの初期値には0が入ります。
+      min=0と指定することで最小値を0にして、負の値が入力された際にエラーになるようにしています。
+      input [number]にはmin以外にも色々指定できるパラメーターがあります。
+      -->
+      <li>{{items.item1.name}}購入:<input type="number" ng-model="item1" min="0" />個</input></li>
+      <li>{{items.item2.name}}購入:<input type="number" ng-model="item2" min="0" />個</input></li>
+      <li>{{items.item3.name}}購入:<input type="number" ng-model="item3" min="0" />個</input></li>
+      <li>お買い上げ数:{{ getAmount() | number }}個</li> 
+      <li>購入代金:{{ getPayment() | number }}円 </li>
+      <li>{{shippingMessage}}:{{shipping}}円</li>
+      <li>総代金:{{getTotalcost() | number}}:円</li>
+    </ul>
+  </div>  
+</body>
+</html>
+
+
